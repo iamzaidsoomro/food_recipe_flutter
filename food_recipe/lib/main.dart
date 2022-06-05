@@ -20,9 +20,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cookpad',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          primaryColor: Color.fromARGB(255, 0, 35, 82)),
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: Color.fromARGB(255, 0, 35, 82),
+        scaffoldBackgroundColor: Color.fromARGB(255, 252, 252, 252),
+      ),
       home: const LoginSignup(),
       debugShowCheckedModeBanner: false,
     );

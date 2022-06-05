@@ -57,11 +57,11 @@ class LoginSignup extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
+                      padding: const EdgeInsets.all(35.0),
                       child: Column(children: [
                         ElevatedButton(
                           onPressed: () => {
