@@ -26,7 +26,7 @@ class LoginSignup extends StatelessWidget {
                 Colors.white.withOpacity(1),
                 Colors.white.withOpacity(0.9),
                 Colors.white.withOpacity(0.8),
-                Colors.white.withOpacity(0.2),
+                Colors.white.withOpacity(0.7),
                 Colors.white.withOpacity(0.1),
                 Colors.black.withOpacity(0.1),
                 Colors.black.withOpacity(0.05),
@@ -47,6 +47,14 @@ class LoginSignup extends StatelessWidget {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Search over 2 Million Recipes",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 85, 85, 85),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(
                     height: 30,
