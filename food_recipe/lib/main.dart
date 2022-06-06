@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: Color.fromARGB(255, 0, 35, 82),
-        scaffoldBackgroundColor: Color.fromARGB(255, 252, 252, 252),
+        primaryColor: const Color.fromARGB(255, 0, 35, 82),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 252, 252, 252),
       ),
       home: const LoginSignup(),
       debugShowCheckedModeBanner: false,

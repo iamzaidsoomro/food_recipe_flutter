@@ -72,11 +72,6 @@ class LoginSignup extends StatelessWidget {
                               ),
                             )
                           },
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all(5),
                             backgroundColor: MaterialStateProperty.all(
@@ -85,6 +80,11 @@ class LoginSignup extends StatelessWidget {
                                 const Size(double.infinity, 50)),
                             minimumSize: MaterialStateProperty.all(
                                 const Size(double.infinity, 50)),
+                          ),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
                         Padding(
