@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/components/populardishes.dart';
 import 'package:food_recipe/components/searchbar.dart';
 import 'package:food_recipe/components/userbar.dart';
-import 'package:food_recipe/loginsignup.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,14 +22,12 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: SingleChildScrollView(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              UserBar(),
-              SearchBar(),
-              SizedBox(height: 20),
-              PopularDishes()
-            ]),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const UserBar(),
+          const SearchBar(),
+          const SizedBox(height: 20),
+          PopularDishes(),
+        ]),
       ),
     );
   }
