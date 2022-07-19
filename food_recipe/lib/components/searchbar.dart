@@ -16,7 +16,7 @@ class SearchBar extends StatelessWidget {
           hintText: 'Search',
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),

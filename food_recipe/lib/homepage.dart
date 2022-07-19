@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipe/components/Drawer.dart';
 import 'package:food_recipe/components/populardishes.dart';
 import 'package:food_recipe/components/searchbar.dart';
 import 'package:food_recipe/components/userbar.dart';
@@ -10,13 +11,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: const MyDrawer(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         centerTitle: true,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-          onPressed: () {},
-        ),
         title: Text('Cookpad',
             style: TextStyle(color: Theme.of(context).primaryColor)),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
