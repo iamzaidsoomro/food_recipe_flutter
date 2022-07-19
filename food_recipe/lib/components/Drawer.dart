@@ -12,11 +12,11 @@ class MyDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 15, 15, 15),
-                    Color.fromARGB(255, 14, 14, 14),
+                    Color.fromARGB(255, 14, 0, 78),
+                    Color.fromARGB(255, 0, 8, 51),
                   ],
                 ),
               ),

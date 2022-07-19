@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipe/components/Categories.dart';
 import 'package:food_recipe/components/Drawer.dart';
 import 'package:food_recipe/components/populardishes.dart';
 import 'package:food_recipe/components/searchbar.dart';
@@ -24,6 +25,8 @@ class HomePage extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const UserBar(),
           const SearchBar(),
+          const SizedBox(height: 20),
+          Categories(),
           const SizedBox(height: 20),
           PopularDishes(),
         ]),
