@@ -57,14 +57,6 @@ class MealList extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    trailing: Text(
-                      snapshot.data['hits'][index]['recipe']['dishType'][0],
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
                     onTap: () {
                       Navigator.push(
                         context,

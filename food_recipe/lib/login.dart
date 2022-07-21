@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    String _email = "", _password = "";
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
@@ -50,6 +52,9 @@ class Login extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                            onChanged: (value) {
+                              _email = value;
+                            },
                           ),
                           const SizedBox(
                             height: 20,
@@ -73,6 +78,9 @@ class Login extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                            onChanged: (value) {
+                              _password = value;
+                            },
                           ),
                           const SizedBox(
                             height: 20,
@@ -81,14 +89,32 @@ class Login extends StatelessWidget {
                             onPressed: () => {
                               if (formKey.currentState!.validate())
                                 {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Login Successful'))),
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomePage()))
+                                  FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: _email, password: _password)
+                                      .then((value) => {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomePage())),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                              'Login Successful',
+                                              style: TextStyle(
+                                                  color: Colors.greenAccent),
+                                            ))),
+                                          })
+                                      .catchError((error) => {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                              'Login Failed',
+                                              style: TextStyle(
+                                                  color: Colors.redAccent),
+                                            )))
+                                          }),
                                 }
                             },
                             style: ButtonStyle(

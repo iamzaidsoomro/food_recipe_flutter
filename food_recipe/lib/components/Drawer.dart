@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_recipe/loginsignup.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -8,17 +10,10 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: const [
+        children: [
           UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromARGB(255, 14, 0, 78),
-                    Color.fromARGB(255, 0, 8, 51),
-                  ],
-                ),
+                color: Theme.of(context).primaryColor,
               ),
               margin: EdgeInsets.zero,
               accountName: Text("Zaid Ahmed"),
@@ -41,6 +36,17 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
+          ),
+          ListTile(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return LoginSignup();
+              }));
+            },
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
           ),
         ],
       ),
