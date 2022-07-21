@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserBar extends StatelessWidget {
   const UserBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var _userName = FirebaseAuth.instance.currentUser?.displayName;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
@@ -19,7 +21,7 @@ class UserBar extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Hi Zaid,',
+                    Text('Hi ${_userName},',
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
