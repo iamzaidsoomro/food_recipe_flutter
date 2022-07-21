@@ -15,11 +15,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    var details = {
-      "name": "",
-      "email": "",
-      "password": "",
-    };
+    var details = {"name": "", "email": "", "password": "", "favorites": []};
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -150,6 +146,20 @@ class _SignUpState extends State<SignUp> {
                                 onPressed: () => {
                                   if (formKey.currentState!.validate())
                                     {
+                                      ScaffoldMessenger.of(context)
+                                          .showMaterialBanner(MaterialBanner(
+                                        content: Text(
+                                          "Please wait while we create your account",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        actions: [
+                                          CircularProgressIndicator(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ],
+                                      )),
                                       FirebaseAuth.instance
                                           .createUserWithEmailAndPassword(
                                             email: details["email"]
@@ -174,6 +184,9 @@ class _SignUpState extends State<SignUp> {
                                                         .trim())
                                                     .set(details)
                                                     .then((value) => {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .hideCurrentMaterialBanner(),
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -194,6 +207,9 @@ class _SignUpState extends State<SignUp> {
                                                           )))
                                                         })
                                                     .catchError((error) => {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .hideCurrentMaterialBanner(),
                                                           if (error
                                                               .toString()
                                                               .contains(
@@ -209,6 +225,20 @@ class _SignUpState extends State<SignUp> {
                                                                 backgroundColor:
                                                                     Colors.red,
                                                               ))
+                                                            }
+                                                          else if (error
+                                                              .toString()
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  "a network error"))
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                          content:
+                                                                              Text("Please check your Internet Connection")))
                                                             }
                                                           else
                                                             {
@@ -227,6 +257,8 @@ class _SignUpState extends State<SignUp> {
                                               })
                                           .catchError((error) => {
                                                 ScaffoldMessenger.of(context)
+                                                    .hideCurrentMaterialBanner(),
+                                                ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(
                                                       "Sign Up Failed: ${error.value}",
@@ -234,14 +266,17 @@ class _SignUpState extends State<SignUp> {
                                                           color: Colors.red)),
                                                 ))
                                               })
-                                          .catchError((value) =>
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    "Sign Up Failed: ${value}",
-                                                    style: TextStyle(
-                                                        color: Colors.red)),
-                                              )))
+                                          .catchError((value) => {
+                                                ScaffoldMessenger.of(context)
+                                                    .hideCurrentMaterialBanner(),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "Sign Up Failed: ${value.value}",
+                                                      style: TextStyle(
+                                                          color: Colors.red)),
+                                                ))
+                                              }),
                                     }
                                 },
                                 child: Text(

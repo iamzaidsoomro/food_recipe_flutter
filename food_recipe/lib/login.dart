@@ -89,6 +89,20 @@ class Login extends StatelessWidget {
                             onPressed: () => {
                               if (formKey.currentState!.validate())
                                 {
+                                  ScaffoldMessenger.of(context)
+                                      .showMaterialBanner(MaterialBanner(
+                                    content: Text(
+                                      "Please wait while we sign you in",
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    actions: [
+                                      CircularProgressIndicator(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ],
+                                  )),
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                           email: _email, password: _password)
@@ -99,6 +113,8 @@ class Login extends StatelessWidget {
                                                     builder: (context) =>
                                                         HomePage())),
                                             ScaffoldMessenger.of(context)
+                                                .clearMaterialBanners(),
+                                            ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                                     content: Text(
                                               'Login Successful',
@@ -107,14 +123,61 @@ class Login extends StatelessWidget {
                                             ))),
                                           })
                                       .catchError((error) => {
+                                            print(error),
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                              'Login Failed',
-                                              style: TextStyle(
-                                                  color: Colors.redAccent),
-                                            )))
-                                          }),
+                                                .clearMaterialBanners(),
+                                            if (error.toString().contains(
+                                                "password is invalid"))
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text(
+                                                  'Wrong Password',
+                                                  style: TextStyle(
+                                                      color: Colors.redAccent),
+                                                ))),
+                                              }
+                                            else if (error
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains("no user record"))
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text(
+                                                  'Account doesn\'t exist',
+                                                  style: TextStyle(
+                                                      color: Colors.redAccent),
+                                                ))),
+                                              }
+                                            else if (error
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains("a network error"))
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text(
+                                                  'Please check your Internet Connection',
+                                                  style: TextStyle(
+                                                      color: Colors.redAccent),
+                                                ))),
+                                              }
+                                            else
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text(
+                                                  'An unknown error occurred',
+                                                  style: TextStyle(
+                                                      color: Colors.redAccent),
+                                                ))),
+                                              }
+                                          })
                                 }
                             },
                             style: ButtonStyle(
