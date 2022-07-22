@@ -1,10 +1,13 @@
 import 'dart:ui';
 import "package:flutter/material.dart";
-import 'package:flutter/cupertino.dart';
+import "package:food_recipe/addToFavourites.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 
-class RecipePage extends StatelessWidget {
+class RecipePage extends StatefulWidget {
   final name, ingredients, source, image, cuisine, nutrition, mealType;
-  const RecipePage(
+
+  RecipePage(
       {Key? key,
       @required this.name,
       @required this.ingredients,
@@ -16,7 +19,31 @@ class RecipePage extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<RecipePage> createState() => _RecipePageState();
+}
+
+class _RecipePageState extends State<RecipePage> {
+  var favIcon = Icons.favorite_border;
+  var favIconColor = Colors.white;
+  @override
   Widget build(BuildContext context) {
+    var isFavorite = false;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.email)
+        .get()
+        .then((value) {
+      var favorites = value.data()?['favorites'];
+      for (var i in favorites) {
+        if (i['label'] == widget.name) {
+          setState(() {
+            favIcon = Icons.favorite_sharp;
+            favIconColor = Colors.redAccent;
+            isFavorite = true;
+          });
+        }
+      }
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -24,7 +51,7 @@ class RecipePage extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(image), fit: BoxFit.cover)),
+                      image: NetworkImage(widget.image), fit: BoxFit.cover)),
               height: MediaQuery.of(context).size.height * 0.4,
               width: MediaQuery.of(context).size.width,
               child: Container(
@@ -50,13 +77,13 @@ class RecipePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          widget.name,
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColor),
                         ),
-                        Text("by $source",
+                        Text("by ${widget.source}",
                             style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -81,7 +108,7 @@ class RecipePage extends StatelessWidget {
                         size: 30,
                       ),
                       Text(
-                        mealType[0],
+                        widget.mealType[0],
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -97,7 +124,7 @@ class RecipePage extends StatelessWidget {
                         size: 30,
                       ),
                       Text(
-                        cuisine[0],
+                        widget.cuisine[0],
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -113,9 +140,11 @@ class RecipePage extends StatelessWidget {
                         size: 30,
                       ),
                       Text(
-                        nutrition['ENERC_KCAL']['quantity'].round().toString() +
+                        widget.nutrition['ENERC_KCAL']['quantity']
+                                .round()
+                                .toString() +
                             ' ' +
-                            nutrition['ENERC_KCAL']['unit'].toString(),
+                            widget.nutrition['ENERC_KCAL']['unit'].toString(),
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -132,12 +161,12 @@ class RecipePage extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.6,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                itemCount: ingredients.length,
+                itemCount: widget.ingredients.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Icon(Icons.check,
                         color: Theme.of(context).primaryColor),
-                    title: Text(ingredients[index]['text']),
+                    title: Text(widget.ingredients[index]['text']),
                   );
                 },
               ),
@@ -147,8 +176,54 @@ class RecipePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.favorite_border),
+        onPressed: () {
+          if (!isFavorite) {
+            addToFavourites(
+                widget.name,
+                widget.ingredients,
+                widget.source,
+                widget.image,
+                widget.cuisine,
+                widget.nutrition,
+                widget.mealType);
+            setState(() {
+              favIcon = Icons.favorite_sharp;
+              favIconColor = Colors.redAccent;
+              isFavorite = true;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Added to favourites'),
+              duration: Duration(seconds: 1),
+            ));
+          } else {
+            FirebaseFirestore.instance
+                .collection("users")
+                .doc(FirebaseAuth.instance.currentUser?.email)
+                .get()
+                .then((value) {
+              var favorites = value.data()?['favorites'];
+              for (var i in favorites) {
+                if (i['label'] == widget.name) {
+                  FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser?.email)
+                      .update({
+                    'favorites': FieldValue.arrayRemove([i])
+                  });
+                  isFavorite = false;
+                  setState(() {
+                    favIcon = Icons.favorite_border;
+                    favIconColor = Colors.white;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Removed from favorites"),
+                  ));
+                }
+              }
+            });
+          }
+        },
+        child: Icon(favIcon, color: favIconColor),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );

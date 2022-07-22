@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_recipe/Favorites.dart';
 import 'package:food_recipe/loginsignup.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -26,9 +27,15 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Home'),
           ),
-          const ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text('Favorites'),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text('Favorites'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Favorites()),
+              );
+            },
           ),
           const ListTile(
             leading: Icon(Icons.settings),

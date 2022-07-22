@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_recipe/login.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class SignUp extends StatefulWidget {
@@ -124,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 50,
                               ),
                               ElevatedButton(
@@ -139,9 +140,9 @@ class _SignUpState extends State<SignUp> {
                                           borderRadius:
                                               BorderRadius.circular(10))),
                                   minimumSize: MaterialStateProperty.all(
-                                      Size(double.infinity, 50)),
+                                      const Size(double.infinity, 50)),
                                   maximumSize: MaterialStateProperty.all(
-                                      Size(double.infinity, 50)),
+                                      const Size(double.infinity, 50)),
                                 ),
                                 onPressed: () => {
                                   if (formKey.currentState!.validate())
@@ -192,12 +193,12 @@ class _SignUpState extends State<SignUp> {
                                                               MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        HomePage(),
+                                                                        const HomePage(),
                                                               )),
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .showSnackBar(
-                                                                  SnackBar(
+                                                                  const SnackBar(
                                                                       content:
                                                                           Text(
                                                             "Sign Up Successful",
@@ -219,9 +220,9 @@ class _SignUpState extends State<SignUp> {
                                                                       .of(
                                                                           context)
                                                                   .showSnackBar(
-                                                                      SnackBar(
+                                                                      const SnackBar(
                                                                 content: Text(
-                                                                    "Email already exists"),
+                                                                    "Email already in use"),
                                                                 backgroundColor:
                                                                     Colors.red,
                                                               ))
@@ -294,9 +295,14 @@ class _SignUpState extends State<SignUp> {
                         const SizedBox(
                           height: 20,
                         ),
-                        FlatButton(
-                          onPressed: () => {},
-                          child: Text('Already have an account? Sign In',
+                        TextButton(
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()))
+                          },
+                          child: const Text('Already have an account? Sign In',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
