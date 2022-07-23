@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:food_recipe/addToFavourites.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:food_recipe/removeFromFavorites.dart';
 
 class RecipePage extends StatefulWidget {
   final name, ingredients, source, image, cuisine, nutrition, mealType;
@@ -178,7 +179,7 @@ class _RecipePageState extends State<RecipePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (!isFavorite) {
-            addToFavourites(
+            isFavorite = addToFavourites(
                 widget.name,
                 widget.ingredients,
                 widget.source,
@@ -189,38 +190,30 @@ class _RecipePageState extends State<RecipePage> {
             setState(() {
               favIcon = Icons.favorite_sharp;
               favIconColor = Colors.redAccent;
-              isFavorite = true;
             });
+            print(isFavorite);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Added to favourites'),
               duration: Duration(seconds: 1),
             ));
           } else {
-            FirebaseFirestore.instance
-                .collection("users")
-                .doc(FirebaseAuth.instance.currentUser?.email)
-                .get()
-                .then((value) {
-              var favorites = value.data()?['favorites'];
-              for (var i in favorites) {
-                if (i['label'] == widget.name) {
-                  FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(FirebaseAuth.instance.currentUser?.email)
-                      .update({
-                    'favorites': FieldValue.arrayRemove([i])
-                  });
-                  isFavorite = false;
-                  setState(() {
-                    favIcon = Icons.favorite_border;
-                    favIconColor = Colors.white;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Removed from favorites"),
-                  ));
-                }
-              }
+            isFavorite = !removeFromFavourites(
+                widget.name,
+                widget.ingredients,
+                widget.source,
+                widget.image,
+                widget.cuisine,
+                widget.nutrition,
+                widget.mealType);
+            setState(() {
+              favIcon = Icons.favorite_border;
+              favIconColor = Colors.white;
             });
+            print(isFavorite);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Removed from favourites'),
+              duration: Duration(seconds: 1),
+            ));
           }
         },
         child: Icon(favIcon, color: favIconColor),
