@@ -35,52 +35,59 @@ class MealList extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data['hits'].length,
                 itemBuilder: (BuildContext context, int index) {
-                  return (ListTile(
-                    style: ListTileStyle.list,
-                    leading: Image.network(
-                      snapshot.data['hits'][index]['recipe']['image'],
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      snapshot.data['hits'][index]['recipe']['label'],
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    subtitle: Text(
-                      snapshot.data['hits'][index]['recipe']['source'],
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecipePage(
-                            name: snapshot.data['hits'][index]['recipe']
-                                ['label'],
-                            ingredients: snapshot.data['hits'][index]['recipe']
-                                ['ingredients'],
-                            image: snapshot.data['hits'][index]['recipe']
-                                ['image'],
-                            source: snapshot.data['hits'][index]['recipe']
-                                ['source'],
-                            cuisine: snapshot.data['hits'][index]['recipe']
-                                ['cuisineType'],
-                            nutrition: snapshot.data['hits'][index]['recipe']
-                                ['totalNutrients'],
-                            mealType: snapshot.data['hits'][index]['recipe']
-                                ['mealType'],
+                  return Column(
+                    children: [
+                      (ListTile(
+                        style: ListTileStyle.list,
+                        leading: Image.network(
+                          snapshot.data['hits'][index]['recipe']['image'],
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(
+                          snapshot.data['hits'][index]['recipe']['label'],
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                        subtitle: Text(
+                          snapshot.data['hits'][index]['recipe']['source'],
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      );
-                    },
-                  ));
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipePage(
+                                name: snapshot.data['hits'][index]['recipe']
+                                    ['label'],
+                                ingredients: snapshot.data['hits'][index]
+                                    ['recipe']['ingredients'],
+                                image: snapshot.data['hits'][index]['recipe']
+                                    ['image'],
+                                source: snapshot.data['hits'][index]['recipe']
+                                    ['source'],
+                                cuisine: snapshot.data['hits'][index]['recipe']
+                                    ['cuisineType'],
+                                nutrition: snapshot.data['hits'][index]
+                                    ['recipe']['totalNutrients'],
+                                mealType: snapshot.data['hits'][index]['recipe']
+                                    ['mealType'],
+                              ),
+                            ),
+                          );
+                        },
+                      )),
+                      Divider(
+                        color: Colors.grey,
+                      ),
+                    ],
+                  );
                 },
               ),
             );

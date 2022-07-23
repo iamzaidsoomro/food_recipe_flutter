@@ -65,72 +65,79 @@ class _FavoritesState extends State<Favorites> {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return (ListTile(
-                    style: ListTileStyle.list,
-                    leading: Image.network(
-                      snapshot.data[index]['image'],
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      snapshot.data[index]['label'],
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    subtitle: Text(
-                      snapshot.data[index]['source'],
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecipePage(
-                            name: snapshot.data[index]['label'],
-                            ingredients: snapshot.data[index]['ingredients'],
-                            image: snapshot.data[index]['image'],
-                            source: snapshot.data[index]['source'],
-                            cuisine: snapshot.data[index]['cuisine'],
-                            nutrition: snapshot.data[index]['nutrition'],
-                            mealType: snapshot.data[index]['mealType'],
+                  return Column(
+                    children: [
+                      (ListTile(
+                        style: ListTileStyle.list,
+                        leading: Image.network(
+                          snapshot.data[index]['image'],
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(
+                          snapshot.data[index]['label'],
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                        subtitle: Text(
+                          snapshot.data[index]['source'],
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      );
-                    },
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.grey),
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(FirebaseAuth.instance.currentUser?.email)
-                            .update({
-                          'favorites':
-                              FieldValue.arrayRemove([snapshot.data[index]])
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Removed from favorites"),
-                            backgroundColor: Colors.grey,
-                          ),
-                        );
-                        setState(() {
-                          data = FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser?.email)
-                              .get()
-                              .then((value) {
-                            return value.data()?['favorites'];
-                          });
-                        });
-                      },
-                    ),
-                  ));
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipePage(
+                                name: snapshot.data[index]['label'],
+                                ingredients: snapshot.data[index]
+                                    ['ingredients'],
+                                image: snapshot.data[index]['image'],
+                                source: snapshot.data[index]['source'],
+                                cuisine: snapshot.data[index]['cuisine'],
+                                nutrition: snapshot.data[index]['nutrition'],
+                                mealType: snapshot.data[index]['mealType'],
+                              ),
+                            ),
+                          );
+                        },
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.grey),
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(FirebaseAuth.instance.currentUser?.email)
+                                .update({
+                              'favorites':
+                                  FieldValue.arrayRemove([snapshot.data[index]])
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Removed from favorites"),
+                              ),
+                            );
+                            setState(() {
+                              data = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser?.email)
+                                  .get()
+                                  .then((value) {
+                                return value.data()?['favorites'];
+                              });
+                            });
+                          },
+                        ),
+                      )),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+                    ],
+                  );
                 },
               ),
             );

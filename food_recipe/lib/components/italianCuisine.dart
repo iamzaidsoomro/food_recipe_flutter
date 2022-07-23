@@ -3,16 +3,16 @@ import 'package:food_recipe/components/RecipePage.dart';
 
 import '../apiCall.dart';
 
-class PopularDishes extends StatelessWidget {
+class ItalianDishes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future data = getDishes("popular");
+    Future data = getDishes("italian dishes");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("Popular Dishes",
+            child: Text("Italian Dishes",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
