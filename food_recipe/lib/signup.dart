@@ -148,19 +148,16 @@ class _SignUpState extends State<SignUp> {
                                   if (formKey.currentState!.validate())
                                     {
                                       ScaffoldMessenger.of(context)
-                                          .showMaterialBanner(MaterialBanner(
-                                        content: Text(
-                                          "Please wait while we create your account",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: const Text(
+                                              "Please wait while we create your account"),
+                                          action: SnackBarAction(
+                                            label: "⏳",
+                                            onPressed: () {},
+                                          ),
                                         ),
-                                        actions: [
-                                          CircularProgressIndicator(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ],
-                                      )),
+                                      ),
                                       FirebaseAuth.instance
                                           .createUserWithEmailAndPassword(
                                             email: details["email"]
@@ -187,7 +184,7 @@ class _SignUpState extends State<SignUp> {
                                                     .then((value) => {
                                                           ScaffoldMessenger.of(
                                                                   context)
-                                                              .hideCurrentMaterialBanner(),
+                                                              .hideCurrentSnackBar(),
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -210,7 +207,7 @@ class _SignUpState extends State<SignUp> {
                                                     .catchError((error) => {
                                                           ScaffoldMessenger.of(
                                                                   context)
-                                                              .hideCurrentMaterialBanner(),
+                                                              .hideCurrentSnackBar(),
                                                           if (error
                                                               .toString()
                                                               .contains(
@@ -258,7 +255,7 @@ class _SignUpState extends State<SignUp> {
                                               })
                                           .catchError((error) => {
                                                 ScaffoldMessenger.of(context)
-                                                    .hideCurrentMaterialBanner(),
+                                                    .hideCurrentSnackBar(),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(
@@ -269,7 +266,7 @@ class _SignUpState extends State<SignUp> {
                                               })
                                           .catchError((value) => {
                                                 ScaffoldMessenger.of(context)
-                                                    .hideCurrentMaterialBanner(),
+                                                    .hideCurrentSnackBar(),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_recipe/signup.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,8 +19,8 @@ class Login extends StatelessWidget {
               children: [
                 const Image(
                     image: AssetImage('assets/logo.png'),
-                    height: 350,
-                    width: 350),
+                    height: 300,
+                    width: 300),
                 Text('Login',
                     style: TextStyle(
                         fontSize: 30,
@@ -89,20 +90,16 @@ class Login extends StatelessWidget {
                             onPressed: () => {
                               if (formKey.currentState!.validate())
                                 {
-                                  ScaffoldMessenger.of(context)
-                                      .showMaterialBanner(MaterialBanner(
-                                    content: Text(
-                                      "Please wait while we sign you in",
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                          "Please wait while we sign you in"),
+                                      action: SnackBarAction(
+                                        label: "⏳",
+                                        onPressed: () {},
+                                      ),
                                     ),
-                                    actions: [
-                                      CircularProgressIndicator(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    ],
-                                  )),
+                                  ),
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                           email: _email, password: _password)
@@ -113,7 +110,7 @@ class Login extends StatelessWidget {
                                                     builder: (context) =>
                                                         HomePage())),
                                             ScaffoldMessenger.of(context)
-                                                .clearMaterialBanners(),
+                                                .clearSnackBars(),
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                                     content: Text(
@@ -125,7 +122,7 @@ class Login extends StatelessWidget {
                                       .catchError((error) => {
                                             print(error),
                                             ScaffoldMessenger.of(context)
-                                                .clearMaterialBanners(),
+                                                .clearSnackBars(),
                                             if (error.toString().contains(
                                                 "password is invalid"))
                                               {
@@ -195,13 +192,37 @@ class Login extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                           ),
-                          FlatButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Forgot Password?',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
+                              ),
+                              const Text(
+                                ' | ',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUp()));
+                                },
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
