@@ -3,6 +3,7 @@ import 'package:food_recipe/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_recipe/login.dart';
+import 'package:food_recipe/loginsignup.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class SignUp extends StatefulWidget {
@@ -185,13 +186,13 @@ class _SignUpState extends State<SignUp> {
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .hideCurrentSnackBar(),
-                                                          Navigator.push(
+                                                          Navigator.pushAndRemoveUntil(
                                                               context,
                                                               MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const HomePage(),
-                                                              )),
+                                                                  builder:
+                                                                      ((context) =>
+                                                                          HomePage())),
+                                                              (route) => false),
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .showSnackBar(

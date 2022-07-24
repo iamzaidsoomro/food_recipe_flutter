@@ -43,11 +43,24 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const LoginSignup();
-              }));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  PageRouteBuilder(pageBuilder: (BuildContext context,
+                      Animation animation, Animation secondaryAnimation) {
+                    return LoginSignup();
+                  }, transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return new SlideTransition(
+                      position: new Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    );
+                  }),
+                  (Route route) => false);
             },
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),

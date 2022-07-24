@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/components/Categories.dart';
 import 'package:food_recipe/components/Drawer.dart';
 import 'package:food_recipe/components/dishes.dart';
 import 'package:food_recipe/components/searchbar.dart';
 import 'package:food_recipe/components/userbar.dart';
-import 'package:food_recipe/components/italianCuisine.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

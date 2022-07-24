@@ -104,11 +104,12 @@ class Login extends StatelessWidget {
                                       .signInWithEmailAndPassword(
                                           email: _email, password: _password)
                                       .then((value) => {
-                                            Navigator.push(
+                                            Navigator.pushAndRemoveUntil(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
+                                                    builder: ((context) =>
                                                         HomePage())),
+                                                (route) => false),
                                             ScaffoldMessenger.of(context)
                                                 .clearSnackBars(),
                                             ScaffoldMessenger.of(context)
@@ -196,7 +197,24 @@ class Login extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await FirebaseAuth.instance
+                                      .sendPasswordResetEmail(email: _email)
+                                      .then((value) =>
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(
+                                                "Email has been sent to $_email"),
+                                          )))
+                                      .onError((error, stackTrace) {
+                                    print(error);
+                                    return ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                          "An error occurred while sending email"),
+                                    ));
+                                  });
+                                },
                                 child: const Text(
                                   'Forgot Password?',
                                   style: TextStyle(
