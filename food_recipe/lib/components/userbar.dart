@@ -6,7 +6,8 @@ class UserBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _userName = FirebaseAuth.instance.currentUser?.displayName;
+    var _userName =
+        FirebaseAuth.instance.currentUser?.displayName.toString().split(' ')[0];
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_recipe/signup.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -108,7 +109,34 @@ class Login extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: ((context) =>
-                                                        HomePage())),
+                                                        SplashScreen(
+                                                          seconds: 5,
+                                                          navigateAfterSeconds:
+                                                              HomePage(),
+                                                          backgroundColor: Theme
+                                                                  .of(context)
+                                                              .scaffoldBackgroundColor,
+                                                          title: Text('Cookpad',
+                                                              style: TextStyle(
+                                                                  fontSize: 50,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white)),
+                                                          gradientBackground:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              Color(0xff1e2757),
+                                                              Color(0xff141a3a)
+                                                            ],
+                                                            begin: Alignment
+                                                                .topLeft,
+                                                            end: Alignment
+                                                                .bottomRight,
+                                                          ),
+                                                          useLoader: false,
+                                                        ))),
                                                 (route) => false),
                                             ScaffoldMessenger.of(context)
                                                 .clearSnackBars(),

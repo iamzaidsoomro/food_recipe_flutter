@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:food_recipe/Favorites.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_recipe/loginsignup.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var details = FirebaseAuth.instance.currentUser;
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Settings",
+            style: TextStyle(color: Theme.of(context).primaryColor)),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              margin: EdgeInsets.zero,
-              accountName: Text("${details?.displayName}"),
-              accountEmail: Text("${details?.email}"),
-              currentAccountPicture: const CircleAvatar(
-                backgroundImage: AssetImage('assets/userIcon.png'),
-              )),
           ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Favorites'),
+            title: Text('Delete Account',
+                style: TextStyle(fontSize: 20, color: Colors.redAccent)),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Favorites()),
-              );
-            },
-          ),
-          ListTile(
-            onTap: () {
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser?.email)
+                  .delete();
+              FirebaseAuth.instance.currentUser!.delete();
               Navigator.pushAndRemoveUntil(
                   context,
                   PageRouteBuilder(pageBuilder: (BuildContext context,
@@ -54,11 +47,9 @@ class MyDrawer extends StatelessWidget {
                   }),
                   (Route route) => false);
             },
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-          ),
+          )
         ],
-      ),
+      )),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_recipe/login.dart';
 import 'package:food_recipe/loginsignup.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -186,13 +187,31 @@ class _SignUpState extends State<SignUp> {
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .hideCurrentSnackBar(),
-                                                          Navigator.pushAndRemoveUntil(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      ((context) =>
-                                                                          HomePage())),
-                                                              (route) => false),
+                                                          Navigator
+                                                              .pushAndRemoveUntil(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: ((context) =>
+                                                                          SplashScreen(
+                                                                            seconds:
+                                                                                5,
+                                                                            navigateAfterSeconds:
+                                                                                HomePage(),
+                                                                            backgroundColor:
+                                                                                Theme.of(context).scaffoldBackgroundColor,
+                                                                            image:
+                                                                                Image.asset('assets/logo.png'),
+                                                                            photoSize:
+                                                                                (MediaQuery.of(context).size.width * 0.3),
+                                                                            title:
+                                                                                Text('Cookpad', style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                                                                            useLoader:
+                                                                                false,
+                                                                            loadingText:
+                                                                                Text("The Recipe Searching App", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 20)),
+                                                                          ))),
+                                                                  (route) =>
+                                                                      false),
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .showSnackBar(
