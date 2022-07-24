@@ -1,5 +1,5 @@
 name: food_recipe
-description: A new Flutter project.
+description: A recipe searching app made using flutter, firebase, and edamam api
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -37,11 +37,14 @@ dependencies:
   firebase_auth: ^3.4.2
   cloud_firestore: ^3.3.0
   group_radio_button: ^1.2.0
+  flutter_launcher_icons: ^0.9.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+  android: true
+  image_path: "assets/logo.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
